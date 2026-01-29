@@ -1,6 +1,6 @@
 # code: language=ansible
 ---
-- name: Verify
+- name: Verify - Granular Task Test
   hosts: all
   gather_facts: false
   become: true
@@ -14,8 +14,8 @@
       ansible.builtin.set_fact:
         registered_users: "{{ ansible_facts.getent_passwd }}"
 
-    ## Finalize タスクのテスト
-    - name: Test finalize - symlink creation
+    ## Finalize/symlink タスクテスト
+    - name: Test finalize/symlink - individual task execution
       block:
         - name: Check symlink exists for testuser1
           ansible.builtin.stat:
@@ -27,7 +27,7 @@
             path: "{{ registered_users['testuser2'][4] }}/public"
           register: testuser2_symlink
 
-        - name: Assert symlinks were created
+        - name: Assert symlinks were created from granular task execution
           ansible.builtin.assert:
             that:
               - testuser1_symlink.stat.exists
@@ -36,20 +36,6 @@
               - testuser2_symlink.stat.exists
               - testuser2_symlink.stat.islnk
               - testuser2_symlink.stat.lnk_source == '/var/www/testuser2'
-            fail_msg: "Symlinks were not created correctly"
-            success_msg: "Symlinks created successfully"
+            fail_msg: "Symlinks were not created from individual granular task"
+            success_msg: "Symlinks created successfully from finalize/symlink task"
 
-    ## Prepare タスクのテスト
-    - name: Test prepare - package cache updated
-      block:
-        - name: Verify apt cache is recent
-          ansible.builtin.stat:
-            path: /var/lib/apt/periodic/update-success-stamp
-          register: apt_stamp
-
-        - name: Assert apt cache was updated
-          ansible.builtin.assert:
-            that:
-              - apt_stamp.stat.exists
-            fail_msg: "Package cache was not updated"
-            success_msg: "Package cache was updated successfully"

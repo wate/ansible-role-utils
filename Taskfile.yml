@@ -16,8 +16,14 @@ tasks:
     cmds:
       - molecule test
       - task: notify
+  individual:
+    desc: Run Molecule tests for individual scenario
+    cmds:
+      - molecule test -s individual
+      - task: notify
   all:
     desc: Run Molecule tests for all scenarios (sequential)
     cmds:
       - task: default
+      - task: individual
       - task: notify:all
