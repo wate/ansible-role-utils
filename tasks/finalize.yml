@@ -1,0 +1,5 @@
+# code: language=ansible
+---
+- name: Setup user home symlinks
+  ansible.builtin.include_tasks:
+    file: finalize/symlink.yml

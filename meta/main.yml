@@ -1,8 +1,8 @@
 ---
 galaxy_info:
   role_name: lifecycle
-  author: your name
-  description: Setup lifecycle(work in progress)
+  author: yoshiaki tanaka
+  description: Handles server lifecycle management tasks.
   license: Apache
   min_ansible_version: "2.20"
   platforms:

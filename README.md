@@ -1,38 +1,39 @@
 lifecycle
 =================
 
-A brief description of the role goes here.
+Handles server lifecycle management tasks.
 
 OS Platform
 -----------------
 
-Requirements
+- trixie
+- bookworm
+
+Example
 -----------------
 
-Ansible自体やロールでカバーできない前提条件があれば、ここに記載します。
-例えば、ロールがEC2モジュールを使用する場合、botoパッケージが必要であることをこのセクションに記載するのが良いでしょう。
-
-Role Variables
------------------
-
-`defaults/main.yml`、`vars/main.yml`にある変数、ロールのパラメータで設定できる/設定すべき変数を含め、このロールで設定可能な変数の説明をここに記述します。
-他のロールおよび/またはグローバルスコープから読み込まれる変数(hostvars、group varsなど)もここに記載すべきです。
-
-Dependencies
------------------
-
-[Galaxy]でホストされている他のロールのリストと、他のロールに設定する必要があるパラメータ、
-または他のロールから使用される変数に関する詳細は、ここに記述します。
-
-[Galaxy]: https://galaxy.ansible.com/ui/
-
-Example Playbook
------------------
+### Prepare
 
 ```yaml
-- hosts: servers
-  roles:
-    - role: lifecycle
+- name: Update and upgrade packages
+  ansible.builtin.import_role:
+    task_from: prepare
+```
+
+### Finalize
+
+```yaml
+- name: Setup user home directories
+  ansible.builtin.import_role:
+    task_from: finalize
+```
+
+### Teardown
+
+```yaml
+- name: Cleanup unnecessary packages
+  ansible.builtin.import_role:
+    task_from: teardown
 ```
 
 License
