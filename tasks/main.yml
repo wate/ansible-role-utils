@@ -1,0 +1,41 @@
+# code: language=ansible
+---
+- name: Find platform variable file
+  ansible.builtin.set_fact:
+    variable_file: "{{ lookup('first_found', params, errors='ignore') }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_facts.os_family }}/{{ ansible_facts.distribution }}/{{ ansible_facts.distribution_major_version }}.yml"
+        - "{{ ansible_facts.os_family }}/{{ ansible_facts.distribution }}.yml"
+        - "{{ ansible_facts.os_family }}.yml"
+      paths:
+        - vars
+  tags: role_lifecycle_include_vars
+- name: Include variable file
+  ansible.builtin.include_vars:
+    file: "{{ variable_file }}"
+  when:
+    - variable_file is not none
+    - variable_file | length > 0
+  tags: role_lifecycle_include_vars
+- name: Import repository task
+  ansible.builtin.import_tasks:
+    file: repository.yml
+  tags: role_lifecycle_repository
+- name: Import dependency task
+  ansible.builtin.import_tasks:
+    file: dependency.yml
+  tags: role_lifecycle_dependency
+- name: Import package task
+  ansible.builtin.import_tasks:
+    file: package.yml
+  tags: role_lifecycle_package
+- name: Import setting task
+  ansible.builtin.import_tasks:
+    file: setting.yml
+  tags: role_lifecycle_setting
+- name: Import service task
+  ansible.builtin.import_tasks:
+    file: service.yml
+  tags: role_lifecycle_service

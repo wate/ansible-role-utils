@@ -1,0 +1,88 @@
+# code: language=ansible
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+    ## テストの前処理
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+    - name: Gather service facts
+      ansible.builtin.service_facts:
+    - name: Gather listen ports facts
+      community.general.listen_ports_facts:
+    - name: Gather user facts
+      ansible.builtin.getent:
+        database: passwd
+    - name: Gather group facts
+      ansible.builtin.getent:
+        database: group
+    - name: Set assert variables
+      ansible.builtin.set_fact:
+        registered_users: "{{ ansible_facts.getent_passwd }}"
+        registered_groups: "{{ ansible_facts.getent_group }}"
+        listen_tcp_posts: "{{ ansible_facts.tcp_listen | map(attribute='port') | unique | sort | list }}"
+        listen_udp_posts: "{{ ansible_facts.udp_listen | map(attribute='port') | unique | sort | list }}"
+    ## リポジトリのテスト
+    # - name: Test repository
+    #   block:
+    #     - name: Check apt source setting
+    #       ansible.builtin.stat:
+    #         path: /etc/apt/sources.list.d/package.sources
+    #       register: repo_result
+    #     - name: Assert file
+    #       ansible.builtin.assert:
+    #         that:
+    #           - repo_result.stat.exists
+    # ## パッケージのテスト
+    # - name: Assert package
+    #   ansible.builtin.assert:
+    #     that:
+    #       - ansible_facts.packages['package'] is defined
+    # ## ユーザーのテスト
+    # - name: Test user
+    #   block:
+    #     - name: Assert user
+    #       ansible.builtin.assert:
+    #         that:
+    #           - registered_users['www-data'] is not changed
+    # ## グループのテスト
+    # - name: Test group
+    #   block:
+    #     - name: Assert group
+    #       ansible.builtin.assert:
+    #         that:
+    #           - registered_groups['www-data'] is not changed
+    # ## ファイルのテスト
+    # - name: Test file
+    #   block:
+    #     - name: Check virtual host setting
+    #       ansible.builtin.stat:
+    #         path: /etc/apache2/sites-available/default
+    #       register: result
+    #     - name: Assert file
+    #       ansible.builtin.assert:
+    #         that:
+    #           - result.stat.exists
+    #     - name: Check virtual host enabled
+    #       ansible.builtin.stat:
+    #         path: /etc/apache2/sites-enabled/default
+    #       register: result
+    #     - name: Assert file
+    #       ansible.builtin.assert:
+    #         that:
+    #           - result.stat.exists
+    #           - result.stat.lnk_source == '/etc/apache2/sites-available/default'
+    ## サービスのテスト
+    # - name: Assert service
+    #   ansible.builtin.assert:
+    #     that:
+    #       - ansible_facts.services['package.service'] is defined
+    #       - ansible_facts.services['package.service']['state'] == 'running'
+    #       - ansible_facts.services['package.service']['status'] == 'enabled'
+    # ## 待受ポートのテスト
+    # - name: Assert listen port
+    #   ansible.builtin.assert:
+    #     that:
+    #       - 123456 in listen_tcp_posts

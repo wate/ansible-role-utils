@@ -1,0 +1,91 @@
+---
+role_name_check: 1
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+platforms:
+  - name: trixie
+    groups:
+      - family_debian
+    children:
+      - debian
+    # driver:docker
+    image: geerlingguy/docker-debian13-ansible:latest
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
+    # driver:vagrant
+    box: bento/debian-13
+    memory: 1024
+    cpus: 1
+  - name: bookworm
+    groups:
+      - family_debian
+    children:
+      - debian
+    # driver:docker
+    image: geerlingguy/docker-debian12-ansible:latest
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
+    # driver:vagrant
+    box: bento/debian-12
+    memory: 1024
+    cpus: 1
+provisioner:
+  name: ansible
+  # env:
+  #   ANSIBLE_ROLES_PATH: ${MOLECULE_PROJECT_DIRECTORY}/..
+  options:
+    diff: true
+  config_options:
+    defaults:
+      hash_behaviour: merge
+      result_format: yaml
+  playbooks:
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
+# verifier:
+#   name: ansible
+# scenario:
+#   test_sequence:
+#     - dependency
+#     - cleanup
+#     - destroy
+#     - syntax
+#     - create
+#     - prepare
+#     - converge
+#     - idempotence
+#     - side_effect
+#     - verify
+#     - cleanup
+#     - destroy
+#   create_sequence:
+#     - dependency
+#     - create
+#     - prepare
+#   check_sequence:
+#     - dependency
+#     - cleanup
+#     - destroy
+#     - create
+#     - prepare
+#     - converge
+#     - check
+#     - destroy
+#   converge_sequence:
+#     - dependency
+#     - create
+#     - prepare
+#     - converge
+#   destroy_sequence:
+#     - dependency
+#     - cleanup
+#     - destroy
