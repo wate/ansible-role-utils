@@ -11,13 +11,11 @@
   register: www_directories
 - name: Create public symlink in user home directories
   ansible.builtin.file:
-    src: "/var/www/{{ dir_name }}"
-    dest: "{{ getent_passwd[dir_name][4] }}/{{ lifecycle_symlink_name }}"
+    src: "/var/www/{{ item.path | basename }}"
+    dest: "{{ getent_passwd[item.path | basename][4] }}/{{ lifecycle_symlink_name }}"
     state: link
     force: "{{ user_home_symlink_force | default(false) }}"
   loop: "{{ www_directories.files }}"
-  vars:
-    dir_name: "{{ item.path | basename }}"
   when:
     - dir_name in getent_passwd
     - dir_name not in (lifecycle_exclude_users | default([]))
