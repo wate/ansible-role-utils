@@ -10,3 +10,8 @@ lifecycle_symlink_name: public
 lifecycle_exclude_users: []
   # - root
   # - nobody
+
+## -------------------
+## VirtualBox バージョン指定
+## -------------------
+lifecycle_vbox_version: latest

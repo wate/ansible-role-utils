@@ -3,3 +3,9 @@
 - name: Cleanup packages
   ansible.builtin.include_tasks:
     file: teardown/autoremove.yml
+- name: Setup VirtualBox Guest Additions
+  ansible.builtin.include_tasks:
+    file: teardown/virtualbox.yml
+  when:
+    - ansible_facts.virtualization_role == "guest"
+    - ansible_facts.virtualization_tech_guest == "virtualbox"
