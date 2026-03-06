@@ -1,2 +1,21 @@
 # code: language=ansible
 ---
+- name: Find platform variable file
+  ansible.builtin.set_fact:
+    variable_file: "{{ lookup('first_found', params, errors='ignore') }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_facts.os_family }}/{{ ansible_facts.distribution }}/{{ ansible_facts.distribution_major_version }}.yml"
+        - "{{ ansible_facts.os_family }}/{{ ansible_facts.distribution }}.yml"
+        - "{{ ansible_facts.os_family }}.yml"
+      paths:
+        - vars
+  tags: role_lifecycle_include_vars
+- name: Include variable file
+  ansible.builtin.include_vars:
+    file: "{{ variable_file }}"
+  when:
+    - variable_file is not none
+    - variable_file | length > 0
+  tags: role_utils_include_vars

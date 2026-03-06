@@ -1,6 +1,0 @@
-# code: language=ansible
----
-- name: Update package cache and upgrade packages
-  ansible.builtin.apt:
-    update_cache: "{{ lifecycle_update_cache | default(true) }}"
-    upgrade: "{{ lifecycle_update_package | default(true) }}"

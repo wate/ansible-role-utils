@@ -2,16 +2,31 @@
 ## -------------------
 ## ホームディレクトリに作成するシンボリックリンクの名前
 ## -------------------
-lifecycle_symlink_name: public
+filesystem_symlink_dir: public
 
 ## -------------------
-## 除外ユーザー設定
+## シンボリックリンク元のベースディレクトリ
 ## -------------------
-lifecycle_exclude_users: []
+filesystem_symlink_src_dir: /var/www
+
+## -------------------
+## シンボリックリンクを強制的に変更するか否か
+## -------------------
+filesystem_symlink_force: true
+
+## -------------------
+## ホームディレクトリへのシンボリックリンクの作成を除外ユーザー
+## -------------------
+filesystem_symlink_exclude_users: []
   # - root
   # - nobody
 
 ## -------------------
-## VirtualBox バージョン指定
+## パッケージキャッシュの更新をするかどうか
 ## -------------------
-lifecycle_vbox_version: latest
+package_update_cache: true
+
+## -------------------
+## インストール済みパッケージの更新をするかどうか
+## -------------------
+package_update_upgrade: true
