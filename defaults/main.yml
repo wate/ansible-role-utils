@@ -10,11 +10,17 @@ filesystem_symlink_dir: public
 filesystem_symlink_src_dir: /var/www
 
 ## -------------------
-## 除外ユーザー設定
+## シンボリックリンクを強制的に変更するか否か
 ## -------------------
-lifecycle_exclude_users: []
+filesystem_symlink_force: true
+
+## -------------------
+## ホームディレクトリへのシンボリックリンクの作成を除外ユーザー
+## -------------------
+filesystem_symlink_exclude_users: []
   # - root
   # - nobody
+
 
 ## -------------------
 ## パッケージキャッシュの更新をするかどうか

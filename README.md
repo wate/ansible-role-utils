@@ -17,23 +17,26 @@ Example
 ```yaml
 - name: Update and upgrade packages
   ansible.builtin.import_role:
-    task_from: prepare
+    name: utils
+    task_from: package/update
 ```
 
 ### Finalize
 
 ```yaml
-- name: Setup user home directories
+- name: Cleanup unnecessary packages
   ansible.builtin.import_role:
-    task_from: finalize
+    name: utils
+    task_from: package/autoremove
 ```
 
 ### Teardown
 
 ```yaml
-- name: Cleanup unnecessary packages
+- name: Create home directory symlinks
   ansible.builtin.import_role:
-    task_from: teardown
+    name: utils
+    task_from: filesystem/symlink
 ```
 
 License
