@@ -18,24 +18,4 @@
   when:
     - variable_file is not none
     - variable_file | length > 0
-  tags: role_lifecycle_include_vars
-- name: Import repository task
-  ansible.builtin.import_tasks:
-    file: repository.yml
-  tags: role_lifecycle_repository
-- name: Import dependency task
-  ansible.builtin.import_tasks:
-    file: dependency.yml
-  tags: role_lifecycle_dependency
-- name: Import package task
-  ansible.builtin.import_tasks:
-    file: package.yml
-  tags: role_lifecycle_package
-- name: Import setting task
-  ansible.builtin.import_tasks:
-    file: setting.yml
-  tags: role_lifecycle_setting
-- name: Import service task
-  ansible.builtin.import_tasks:
-    file: service.yml
-  tags: role_lifecycle_service
+  tags: role_utils_include_vars

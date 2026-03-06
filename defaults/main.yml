@@ -2,7 +2,12 @@
 ## -------------------
 ## ホームディレクトリに作成するシンボリックリンクの名前
 ## -------------------
-lifecycle_symlink_name: public
+filesystem_symlink_dir: public
+
+## -------------------
+## シンボリックリンク元のベースディレクトリ
+## -------------------
+filesystem_symlink_src_dir: /var/www
 
 ## -------------------
 ## 除外ユーザー設定
@@ -10,3 +15,13 @@ lifecycle_symlink_name: public
 lifecycle_exclude_users: []
   # - root
   # - nobody
+
+## -------------------
+## パッケージキャッシュの更新をするかどうか
+## -------------------
+package_update_cache: true
+
+## -------------------
+## インストール済みパッケージの更新をするかどうか
+## -------------------
+package_update_upgrade: true

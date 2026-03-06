@@ -1,5 +1,0 @@
-# code: language=ansible
----
-- name: Update package cache and upgrade packages
-  ansible.builtin.include_tasks:
-    file: prepare/update.yml

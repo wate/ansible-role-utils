@@ -1,5 +1,0 @@
-# code: language=ansible
----
-- name: Cleanup packages
-  ansible.builtin.include_tasks:
-    file: teardown/autoremove.yml

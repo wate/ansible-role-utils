@@ -1,7 +1,7 @@
-lifecycle
+utils
 =================
 
-Handles server lifecycle management tasks.
+Handles server utils tasks.
 
 OS Platform
 -----------------

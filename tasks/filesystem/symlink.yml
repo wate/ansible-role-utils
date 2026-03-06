@@ -1,0 +1,28 @@
+# code: language=ansible
+---
+- name: Get all users
+  ansible.builtin.getent:
+    database: passwd
+- name: Get directories in {{ filesystem_symlink_src_dir }}
+  ansible.builtin.find:
+    paths: "{{ filesystem_symlink_src_dir }}"
+    file_type: directory
+    recurse: false
+  register: www_directories
+- name: debug
+  ansible.builtin.debug:
+    var: ansible_facts.getent_passwd
+# - name: Create public symlink in user home directories
+#   ansible.builtin.file:
+#     src: "{{ filesystem_symlink_src_base_dir }}/{{ dir_name }}"
+#     dest: "{{ ansible_facts.getent_passwd[dir_name][4] }}/{{ filesystem_symlink_dir }}"
+#     state: link
+#     force: "{{ user_home_symlink_force | default(false) }}"
+#   loop: "{{ www_directories.files }}"
+#   vars:
+#     dir_name: "{{ item.path | basename }}"
+#   when:
+#     - dir_name in ansible_facts.getent_passwd
+#     - dir_name not in (lifecycle_exclude_users | default([]))
+#   loop_control:
+#     label: "{{ dir_name }}"
