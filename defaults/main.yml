@@ -21,7 +21,6 @@ filesystem_symlink_exclude_users: []
   # - root
   # - nobody
 
-
 ## -------------------
 ## パッケージキャッシュの更新をするかどうか
 ## -------------------

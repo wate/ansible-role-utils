@@ -16,14 +16,6 @@
       when: ansible_facts.pkg_mgr == 'dnf'
       changed_when: false
   tasks:
-    - name: Include package/update task
-      ansible.builtin.include_role:
-        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
-        tasks_from: package/update
-    - name: Include package/autoremove task
-      ansible.builtin.include_role:
-        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
-        tasks_from: package/autoremove
     - name: Include filesystem/symlink task
       ansible.builtin.include_role:
         name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"

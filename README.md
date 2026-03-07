@@ -12,28 +12,8 @@ OS Platform
 Example
 -----------------
 
-### Prepare
-
 ```yaml
-- name: Update and upgrade packages
-  ansible.builtin.import_role:
-    name: utils
-    task_from: package/update
-```
-
-### Finalize
-
-```yaml
-- name: Cleanup unnecessary packages
-  ansible.builtin.import_role:
-    name: utils
-    task_from: package/autoremove
-```
-
-### Teardown
-
-```yaml
-- name: Create home directory symlinks
+- name: Create symbolic links to the document root in the home directory
   ansible.builtin.import_role:
     name: utils
     task_from: filesystem/symlink

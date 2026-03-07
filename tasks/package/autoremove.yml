@@ -1,5 +1,0 @@
-# code: language=ansible
----
-- name: Cleanup packages
-  ansible.builtin.apt:
-    autoremove: true
