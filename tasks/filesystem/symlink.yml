@@ -23,5 +23,5 @@
   loop_control:
     label: "{{ username }}"
   when:
-    - dir_name in ansible_facts.getent_passwd
-    - dir_name not in (filesystem_symlink_exclude_users | default([]))
+    - username in ansible_facts.getent_passwd
+    - username not in (filesystem_symlink_exclude_users | default([]))
